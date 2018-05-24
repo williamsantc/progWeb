@@ -9,6 +9,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title>Prueba</title>
         <link rel="stylesheet" href="css/estilos.css"type="text/css">
+        <link rel="stylesheet" href="css/core/bootstrap.min.css" type="text/css">
     </head>
     <body>
         <h1 class="cursiva">hola</h1>
