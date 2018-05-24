@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="css/estilos.css"type="text/css">
         <link rel="stylesheet" href="css/core/bootstrap.min.css" type="text/css">
         <script src="js/core/bootstrap.min.js"></script>
+        <script src="js/custom.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -38,7 +39,7 @@
                             <h4>FORMULARIO</h4>
                         </div>
                         <div class="card-body">
-                            <form>
+                            <form method="POST" action="servidor.php" > 
                                 <div class="form-group">
                                     <label>codigo</label>
                                     <input type="text" class="form-control" placeholder="ingrese codigo" name="codigo" id="codigo">
@@ -46,6 +47,9 @@
                                 <div class="form-group">
                                     <label>nombre</label>
                                     <input type="text" class="form-control" placeholder="ingrese nombre"name="nombre" id="nombre">
+                                </div>
+                                 <div class="form-group">
+                                     <button class="btn btn-success" onclick="return validar(this.form)">continuar</button>
                                 </div>
                             </form>
                         </div>
