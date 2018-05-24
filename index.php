@@ -39,7 +39,7 @@
                             <h4>FORMULARIO</h4>
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="servidor.php" > 
+                            <form> 
                                 <div class="form-group">
                                     <label>codigo</label>
                                     <input type="text" class="form-control" placeholder="ingrese codigo" name="codigo" id="codigo">
