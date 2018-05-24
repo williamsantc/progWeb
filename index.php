@@ -5,6 +5,7 @@
         <title>Prueba</title>
         <link rel="stylesheet" href="css/estilos.css"type="text/css">
         <link rel="stylesheet" href="css/core/bootstrap.min.css" type="text/css">
+        <script src="js/core/bootstrap.min.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
