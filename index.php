@@ -33,7 +33,26 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-5">
-                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>FORMULARIO</h4>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group">
+                                    <label>codigo</label>
+                                    <input type="text" class="form-control" placeholder="ingrese codigo">
+                                </div>
+                                <div class="form-group">
+                                    <label>nombre</label>
+                                    <input type="text" class="form-control" placeholder="ingrese nombre">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <p>pie de form</p>
+                        </div>   
+                    </div>
                 </div>
             </div>
         </div>
