@@ -4,3 +4,20 @@
  * and open the template in the editor.
  */
 
+function envioServidor(form) {
+    
+    cedula = $("#cedula").val().trim();
+    nombre = $("#nombre").val().trim();
+    
+    if(cedula.length <= 0 || nombre.length <= 0) {
+        alert("campos incompletos");
+        return false;
+    }
+    
+    form.action = "servidor.php";
+    form.method = "GET";
+    form.submit();
+    return true;
+    
+    
+}
