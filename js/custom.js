@@ -5,11 +5,12 @@
  */
 
 function validar(form){
-    if(form.codigo.length <= 0 || form.nombre.length <= 0) {
+    if(form.codigo.value.length <= 0 || form.nombre.value.length <= 0) {
+        alert("campos incompletos");
         return false;
     }
     
-    form.action = "servidor";
+    form.action = "servidor.php";
     form.method = "POST";
     form.submit();
     
