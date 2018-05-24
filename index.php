@@ -41,11 +41,11 @@
                             <form>
                                 <div class="form-group">
                                     <label>codigo</label>
-                                    <input type="text" class="form-control" placeholder="ingrese codigo">
+                                    <input type="text" class="form-control" placeholder="ingrese codigo" name="codigo" id="codigo">
                                 </div>
                                 <div class="form-group">
                                     <label>nombre</label>
-                                    <input type="text" class="form-control" placeholder="ingrese nombre">
+                                    <input type="text" class="form-control" placeholder="ingrese nombre"name="nombre" id="nombre">
                                 </div>
                             </form>
                         </div>
