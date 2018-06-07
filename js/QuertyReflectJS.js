@@ -50,7 +50,7 @@ function soloNumeros() {
     });
 }
 
-function inputToMoney() {
+function money() {
     $(document).ready(function () {
         $('.money').on('keyup', function () {
             var numero = $(this).val().replace(/\./g, '').trim();
@@ -99,7 +99,7 @@ function inputToMoney() {
     });
 }
 
-function numberToMoney(num) {
+function moneda(num) {
     var numero = $.trim(num);
     var parts = numero.split('.');
     var entero = parts[0];
@@ -142,7 +142,20 @@ function validaTextoNumeros(cadena) {
         return false;
 }
 
-function validarCampos(form) {
+function validarSesion() {
+    if (validarCampos()) {
+        alert("Campos No Validos, verifique que no esten vacios.");
+    } else {
+        document.getElementById("operacion").value = "inicio";
+        var adm = document.getElementById("formulario");
+        adm.method = "POST";
+        adm.action = location.pathname;
+        adm.submit();
+
+    }
+}
+
+function valcamp(form) {
     var campos = form.elements;
     for (var i = 0; i < campos.length; i++) {
         if (campos[i].id.trim() !== "" && campos[i].tagName !== "BUTTON"
@@ -156,8 +169,141 @@ function validarCampos(form) {
     return false;
 }
 
+function registrarMVC() {
+    
+    form = document.getElementById("formData");
+    var confir = valcamp(form);
+    if (confir) {
+        alert("campos incompletos");
+        return false;
+    }
+
+    if (confirm("¿Almacenar información?")) {
+        
+         
+        var p = document.createElement("input");
+
+        // Agrega el elemento nuevo a nuestro formulario. 
+        form.appendChild(p);
+        p.name = "operacion";
+        p.id = "operacion";
+        p.type = "hidden";
+        p.value = "registrar";
+        
+        if($(":password").length > 0) {
+            $(":password").each(function() {
+                
+                var pass = document.createElement("input");
+                
+                pass.type = "hidden";
+                pass.name = "hs_" + $(this).attr("id");
+                pass.id = "hs_" + $(this).attr("id");
+                pass.value = hex_sha512($(this).val());
+                
+                form.appendChild(pass);
+                console.log(p.value + " " + p.id);
+                $(this).val("");
+            });
+        } 
+
+        var data = $("form").serialize();
+        $.post("operations.php", 
+
+        data, 
+
+        function(result){
+            result = result.trim();
+            alert(result);
+            if(result === "Registro existoso") {
+                limpiarFormulario();
+                listarMVC();
+            }
+
+        });
+
+        return true;
+    }
+
+    return false;
+}
+
+function modificarMVC() {
+    
+    form = document.getElementById("formData");
+    var confir = valcamp(form);
+    if (confir) {
+        alert("campos incompletos");
+        return false;
+    }
+
+    if (confirm("¿Almacenar información?")) {
+        
+         
+        var p = document.createElement("input");
+
+        // Agrega el elemento nuevo a nuestro formulario. 
+        form.appendChild(p);
+        p.name = "operacion";
+        p.id = "operacion";
+        p.type = "hidden";
+        p.value = "modificar";
+        
+        if($(":password").length > 0) {
+            $(":password").each(function() {
+                
+                var pass = document.createElement("input");
+                
+                pass.type = "hidden";
+                pass.name = "hs_" + $(this).attr("id");
+                pass.id = "hs_" + $(this).attr("id");
+                pass.value = hex_sha512($(this).val());
+                
+                form.appendChild(pass);
+                console.log(p.value + " " + p.id);
+                $(this).val("");
+            });
+        } 
+
+        var data = $("form").serialize();
+        $.post("operations.php", 
+
+        data, 
+
+        function(result){
+            result = result.trim();
+            alert(result);
+            
+            if(result === "Modificacion exitosa") {
+                limpiarFormulario();
+                listarMVC();
+            }
+
+        });
+
+        return true;
+    }
+
+    return false;
+}
+
+function listarMVC() {
+    $.ajax({url: 'operations.php'
+            , type: "POST"
+            , data: {
+                operacion: "listar"
+            }, error: function () {
+                limpiarFormulario();
+            }, success: function (responseText) {
+                responseText = responseText.trim();
+            $("#tableList").html(responseText);
+            $('#tableData').paging({limit: 10});
+            }
+        
+    });
+}
+
 function registrar(form) {
-    var confir = ValidarCampos(form);
+    var confir = valcamp(form);
     if (confir) {
         alert("campos incompletos");
         return false;
@@ -200,7 +346,7 @@ function registrar(form) {
 }
 
 function modificar(form) {
-    var confir = ValidarCampos(form);
+    var confir = valcamp(form);
     if (confir) {
         alert("campos incompletos");
         return false;
@@ -241,7 +387,7 @@ function modificar(form) {
 }
 
 function eliminar(form) {
-    var confir = ValidarCampos(form);
+    var confir = valcamp(form);
     if (confir) {
         alert("campos incompletos");
         return false;
@@ -300,6 +446,9 @@ function buscar(id, value) {
                             } 
                         }
                     }
+                    $("#btnModificar").attr("disabled",false);
+                    $("#btnRegistrar").html("Nuevo");
+                    $("#btnRegistrar").attr("onclick", "limpiarFormulario();");
                 } else {
                     alert(obj["error"]);
                 }
@@ -312,4 +461,145 @@ function limpiarFormulario() {
      $("form").each(function() {
         $(this)[0].reset();
      });
+     $("#btnModificar").attr("disabled",true);
+     $("#btnRegistrar").html("Registrar");
+     $("#btnRegistrar").attr("onclick", "registrarMVC();");
 }
+
+//Funciones personalizadas
+
+function printEX(form) {
+    var confir = valcamp(form);
+    if (confir) {
+        alert("campos incompletos");
+        return false;
+    }
+
+    var p = document.createElement("input");
+    // Agrega el elemento nuevo a nuestro formulario. 
+    form.appendChild(p);
+    p.name = "operacion";
+    p.id = "operacion";
+    p.type = "hidden";
+    p.value = "imprimir";
+
+    form.method = "POST";
+    form.target = "_blank";
+    form.action = location.pathname;
+    form.submit();
+    return true;
+}
+
+function PrintFactura(form) {
+    form.target = "_blank";
+    form.method = "POST";
+    form.action = "../Envio/PrintFactura.php";
+    form.submit();
+
+}
+
+function PrintReparto(form) {
+    form.target = "_blank";
+    form.method = "POST";
+    form.action = "../Envio/PrintReparto.php";
+    form.submit();
+
+}
+
+function FormFactura(form) {
+    form.method = "POST";
+    form.action = "../Envio/formEnvio.php";
+    form.submit();
+
+}
+
+function FormCortesia(form) {
+    form.method = "POST";
+    form.action = "../Envio/cortesia.php";
+    form.submit();
+
+}
+
+function anulFact(form) {
+    var confir = valcamp(form);
+    if (confir) {
+        alert("campos incompletos");
+        return false;
+    }
+
+    if (confirm("¿Almacenar información?")) {
+        var p = document.createElement("input");
+        // Agrega el elemento nuevo a nuestro formulario. 
+        form.appendChild(p);
+        p.name = "op";
+        p.id = "op";
+        p.type = "hidden";
+        p.value = "anulFact";
+
+        form.method = "POST";
+        form.action = location.pathname;
+        form.submit();
+        return true;
+    }
+    return false;
+}
+
+function updRep(form) {
+    var confir = valcamp(form);
+    if (confir) {
+        alert("campos incompletos");
+        return false;
+    }
+
+    if (confirm("¿Almacenar información?")) {
+        var p = document.createElement("input");
+        // Agrega el elemento nuevo a nuestro formulario. 
+        form.appendChild(p);
+        p.name = "op";
+        p.id = "op";
+        p.type = "hidden";
+        p.value = "updRep";
+
+        form.method = "POST";
+        form.action = location.pathname;
+        form.submit();
+        return true;
+    }
+    return false;
+}
+function anulRep(form) {
+    var confir = valcamp(form);
+    if (confir) {
+        alert("campos incompletos");
+        return false;
+    }
+    if (confirm("¿Almacenar información?")) {
+        var p = document.createElement("input");
+        // Agrega el elemento nuevo a nuestro formulario. 
+        form.appendChild(p);
+        p.name = "op";
+        p.id = "op";
+        p.type = "hidden";
+        p.value = "anulRep";
+
+        form.method = "POST";
+        form.action = location.pathname;
+        form.submit();
+        return true;
+    }
+    return false;
+}
+
+function FormModFactura(form) {
+    var confir = valcamp(form);
+    if (confir) {
+        alert("campos incompletos");
+        return false;
+    }
+
+    form.method = "POST";
+    form.action = "../Envio/modEnvio.php";
+    form.submit();
+    return true;
+}
+
